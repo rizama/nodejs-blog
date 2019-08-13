@@ -9,21 +9,22 @@ app.use(expressEdge)
 app.set('views', `${__dirname}/views`)
 
 app.get('/', (req, res) => {
-    res.render('index')
+  console.log(`${__dirname}/views`)
+  res.render('index')
 })
 
 app.get('/about', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'pages/about.html'))
+  res.render('about')
 })
 
 app.get('/contact', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'pages/contact.html'))
+  res.render('contact')
 })
 
 app.get('/post', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'pages/post.html'))
+  res.render('post')
 })
 
-app.listen(3000, () =>{
-    console.log('App Listening on port 3000')
+app.listen(3000, () => {
+  console.log('App Listening on port 3000')
 })
