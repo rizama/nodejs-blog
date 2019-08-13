@@ -19,6 +19,7 @@
   "homepage": "https://github.com/rizama/nodejs-blog#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "express-edge": "^1.0.0",
     "nodemon": "^1.19.1"
   }
 }
