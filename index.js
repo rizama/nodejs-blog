@@ -14,7 +14,7 @@ app.use(expressEdge)
 app.set('views', `${__dirname}/views`)
 
 app.get('/', (req, res) => {
-  console.log(`${__dirname}/views`)
+  // console.log(`${__dirname}/views`)
   res.render('index')
 })
 
@@ -28,6 +28,10 @@ app.get('/contact', (req, res) => {
 
 app.get('/post', (req, res) => {
   res.render('post')
+})
+
+app.get('/post/new', (req, res) => {
+  res.render('create')
 })
 
 app.listen(3000, () => {
