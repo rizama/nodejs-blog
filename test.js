@@ -6,10 +6,14 @@ mongoose.connect('mongodb://localhost/node-js-test-blog', {
   useNewUrlParser: true
 })
 
-Post.create({
-  title: "My Blog Title",
-  description: "Blog post description",
-  content: "Lorem ipsum dolor"
-}, (error, post) => {
-  console.log(error, post)
+Post.find({}, (error, posts) => {
+  console.log(posts)
 })
+
+// Post.create({
+//   title: "My Second Blog Title",
+//   description: "Second Blog post description",
+//   content: "Lorem ipsum dolor"
+// }, (error, post) => {
+//   console.log(error, post)
+// })
