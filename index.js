@@ -27,7 +27,7 @@ const Post = require('./database/models/Post')
 
 // * Index Route
 // app.get('/', (req, res) => {
-//   // console.log(`${__dirname}/views`)
+// console.log(`${__dirname}/views`)
 //   res.render('index')
 // })
 
