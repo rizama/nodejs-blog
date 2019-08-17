@@ -5,8 +5,10 @@ const expressEdge = require('express-edge')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 
+// * Create new Express
 const app = new express()
 
+// * Connect to Mongodb
 mongoose.connect('mongodb://localhost/node-js-blog', {
   useNewUrlParser: true
 })
@@ -20,10 +22,22 @@ app.use(bodyParser.urlencoded({
   extended: true
 }))
 
+// * Import Model 
+const Post = require('./database/models/Post')
+
 // * Index Route
-app.get('/', (req, res) => {
-  // console.log(`${__dirname}/views`)
-  res.render('index')
+// app.get('/', (req, res) => {
+//   // console.log(`${__dirname}/views`)
+//   res.render('index')
+// })
+
+// Index Route Use Asyncronous Function
+app.get('/', async (req, res) => {
+  const posts = await Post.find({})
+  console.log(posts)
+  res.render('index', {
+    posts: posts
+  })
 })
 
 // * About Route
@@ -47,7 +61,9 @@ app.get('/post/new', (req, res) => {
 
 app.post('/posts/store', (req, res) => {
   console.log(req.body)
-  res.redirect('/')
+  Post.create(req.body, (error, post) => {
+    res.redirect('/')
+  })
 })
 
 // * Server Run
