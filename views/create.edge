@@ -24,12 +24,6 @@
         <form action="/posts/store" method="POST" enctype="multipart/form-data">
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
-              <label>Username</label>
-              <input type="text" class="form-control" placeholder="Username" id="username" required name="username">
-            </div>
-          </div>
-          <div class="control-group">
-            <div class="form-group floating-label-form-group controls">
               <label>Title</label>
               <input type="text" class="form-control" placeholder="Title" id="title" required name="title">
             </div>
@@ -67,4 +61,19 @@
 </article>
 
 <hr>
+@endsection
+
+@section('styles')
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
+@endsection
+
+@section('scripts')
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
+  <script>
+    $('#content').summernote({
+      placeholder: 'Create Content',
+      tabsize: 2,
+      height: 100
+    });
+  </script>
 @endsection
