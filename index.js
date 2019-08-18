@@ -20,6 +20,7 @@ mongoose.set('useCreateIndex', true);
 // * Custom Middleware
 const StorePostMiddleware = require('./middleware/StorePostMiddleware')
 const AuthMiddleware = require('./middleware/AuthMiddleware')
+const UserAuthenticated = require('./middleware/UserAuthenticated')
 
 // * Use Package
 app.use(express.static('public'))
@@ -66,10 +67,10 @@ app.get('/post/:id', GetPostController)
 app.post('/posts/store', AuthMiddleware, StorePostMiddleware, StorePostController)
 
 // * Users Route
-app.get('/auth/register', CreateUserController)
-app.post('/users/register', StoreUserController)
-app.get('/auth/login', LoginUserController)
-app.post('/users/login', LoginProcessController)
+app.get('/auth/register', UserAuthenticated, CreateUserController)
+app.post('/users/register', UserAuthenticated, StoreUserController)
+app.get('/auth/login', UserAuthenticated, LoginUserController)
+app.post('/users/login', UserAuthenticated, LoginProcessController)
 
 // * Server Run
 app.listen(3000, () => {
