@@ -6,6 +6,7 @@ const bodyParser = require('body-parser')
 const fileUpload = require('express-fileupload')
 const expressSession = require('express-session')
 const connectMongo = require('connect-mongo')
+const connectFlash = require('connect-flash')
 
 // * Create new Express
 const app = new express()
@@ -38,6 +39,7 @@ app.use(expressSession({
     mongooseConnection: mongoose.connection
   })
 }))
+app.use(connectFlash())
 
 // * Import Controllers
 const CreatePostController = require('./controllers/Posts/CreatePostController')
