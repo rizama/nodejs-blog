@@ -7,6 +7,7 @@ const fileUpload = require('express-fileupload')
 const expressSession = require('express-session')
 const connectMongo = require('connect-mongo')
 const connectFlash = require('connect-flash')
+const edge = require('edge.js')
 
 // * Create new Express
 const app = new express()
@@ -41,6 +42,10 @@ app.use(expressSession({
   })
 }))
 app.use(connectFlash())
+app.use('*', (req, res, next) => {
+  edge.global('auth', req.session.userId)
+  next()
+})
 
 // * Import Controllers
 const CreatePostController = require('./controllers/Posts/CreatePostController')
