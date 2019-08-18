@@ -4,6 +4,7 @@ const path = require('path')
 const expressEdge = require('express-edge')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
+const fileUpload = require('express-fileupload')
 
 // * Create new Express
 const app = new express()
@@ -21,6 +22,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
   extended: true
 }))
+app.use(fileUpload())
 
 // * Import Model 
 const Post = require('./database/models/Post')
@@ -74,9 +76,14 @@ app.get('/post/:id', async (req, res) => {
 })
 
 app.post('/posts/store', (req, res) => {
-  console.log(req.body)
-  Post.create(req.body, (error, post) => {
-    res.redirect('/')
+  const {
+    image
+  } = req.files
+  console.log(path.resolve(__dirname, 'public/posts', image.name))
+  image.mv(path.resolve(__dirname, 'public/posts', image.name), (error) => {
+    Post.create(req.body, (error, post) => {
+      res.redirect('/')
+    })
   })
 })
 
