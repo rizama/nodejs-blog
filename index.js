@@ -1,6 +1,5 @@
 // * Import Package
 const express = require('express')
-const path = require('path')
 const expressEdge = require('express-edge')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
@@ -15,12 +14,7 @@ mongoose.connect('mongodb://localhost/node-js-blog', {
 })
 
 // * Custom Middleware
-const validateCreatePostMiddleware = (req, res, next) => {
-  if (!req.files.image || !req.body.title || !req.body.description || !req.body.content || !req.body.username) {
-    return res.redirect('/posts/new')
-  }
-  next()
-}
+const StorePostMiddleware = require('./middleware/StorePostMiddleware')
 
 // * Use Package
 app.use(express.static('public'))
@@ -31,11 +25,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }))
 app.use(fileUpload())
-app.use('/posts/store', validateCreatePostMiddleware)
-
-// * Import Model 
-const Post = require('./database/models/Post')
-
+app.use('/posts/store', StorePostMiddleware)
 
 // * Import Controllers
 const CreatePostController = require('./controllers/Posts/CreatePostController')
