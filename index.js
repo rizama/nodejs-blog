@@ -33,6 +33,7 @@ const StorePostController = require('./controllers/Posts/StorePostController')
 const GetPostController = require('./controllers/Posts/GetPostController')
 const HomeController = require('./controllers/HomeController')
 const CreateUserController = require('./controllers/Users/CreateUserController')
+const StoreUserController = require('./controllers/Users/StoreUserController')
 
 // * Index Route
 // app.get('/', (req, res) => {
@@ -50,6 +51,7 @@ app.post('/posts/store', StorePostController)
 
 // * Users Route
 app.get('/auth/register', CreateUserController)
+app.post('/users/register', StoreUserController)
 
 // * Server Run
 app.listen(3000, () => {
