@@ -4,6 +4,8 @@ const expressEdge = require('express-edge')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const fileUpload = require('express-fileupload')
+const expressSession = require('express-session')
+const connectMongo = require('connect-mongo')
 
 // * Create new Express
 const app = new express()
@@ -12,9 +14,11 @@ const app = new express()
 mongoose.connect('mongodb://localhost/node-js-blog', {
   useNewUrlParser: true
 })
+mongoose.set('useCreateIndex', true);
 
 // * Custom Middleware
 const StorePostMiddleware = require('./middleware/StorePostMiddleware')
+const AuthMiddleware = require('./middleware/AuthMiddleware')
 
 // * Use Package
 app.use(express.static('public'))
@@ -25,7 +29,15 @@ app.use(bodyParser.urlencoded({
   extended: true
 }))
 app.use(fileUpload())
-app.use('/posts/store', StorePostMiddleware)
+const mongoStore = connectMongo(expressSession)
+app.use(expressSession({
+  secret: 'secret',
+  resave: true,
+  saveUninitialized: true,
+  store: new mongoStore({
+    mongooseConnection: mongoose.connection
+  })
+}))
 
 // * Import Controllers
 const CreatePostController = require('./controllers/Posts/CreatePostController')
@@ -34,6 +46,8 @@ const GetPostController = require('./controllers/Posts/GetPostController')
 const HomeController = require('./controllers/HomeController')
 const CreateUserController = require('./controllers/Users/CreateUserController')
 const StoreUserController = require('./controllers/Users/StoreUserController')
+const LoginUserController = require('./controllers/Users/LoginUserController')
+const LoginProcessController = require('./controllers/Users/LoginProcessController')
 
 // * Index Route
 // app.get('/', (req, res) => {
@@ -45,13 +59,15 @@ const StoreUserController = require('./controllers/Users/StoreUserController')
 app.get('/', HomeController)
 
 // * Posts Route
-app.get('/post/new', CreatePostController)
+app.get('/post/new', AuthMiddleware, CreatePostController)
 app.get('/post/:id', GetPostController)
-app.post('/posts/store', StorePostController)
+app.post('/posts/store', AuthMiddleware, StorePostMiddleware, StorePostController)
 
 // * Users Route
 app.get('/auth/register', CreateUserController)
 app.post('/users/register', StoreUserController)
+app.get('/auth/login', LoginUserController)
+app.post('/users/login', LoginProcessController)
 
 // * Server Run
 app.listen(3000, () => {
