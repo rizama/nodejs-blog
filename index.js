@@ -23,9 +23,20 @@ app.use(bodyParser.urlencoded({
   extended: true
 }))
 app.use(fileUpload())
+app.use('/posts/store', validateCreatePostMiddleware)
 
 // * Import Model 
 const Post = require('./database/models/Post')
+
+// * Custom Middleware
+const validateCreatePostMiddleware = (req, res, next) => {
+
+  if (!req.files.image || !req.body.title || !req.body.description || !req.body.content || !req.body.username) {
+    return res.redirect('/posts/new')
+  }
+
+  next()
+}
 
 // * Index Route
 // app.get('/', (req, res) => {
