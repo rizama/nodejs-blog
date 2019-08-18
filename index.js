@@ -32,6 +32,7 @@ const CreatePostController = require('./controllers/Posts/CreatePostController')
 const StorePostController = require('./controllers/Posts/StorePostController')
 const GetPostController = require('./controllers/Posts/GetPostController')
 const HomeController = require('./controllers/HomeController')
+const CreateUserController = require('./controllers/Users/CreateUserController')
 
 // * Index Route
 // app.get('/', (req, res) => {
@@ -42,11 +43,13 @@ const HomeController = require('./controllers/HomeController')
 // Index Route Use Asyncronous Function
 app.get('/', HomeController)
 
-
 // * Posts Route
 app.get('/post/new', CreatePostController)
 app.get('/post/:id', GetPostController)
 app.post('/posts/store', StorePostController)
+
+// * Users Route
+app.get('/auth/register', CreateUserController)
 
 // * Server Run
 app.listen(3000, () => {
