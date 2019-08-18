@@ -7,6 +7,10 @@ module.exports = (req, res) => {
 
     // Set Flash Session for validation errors
     req.flash('registerErrors', registerErrors)
+
+    // Set Flash Session Previous Data
+    req.flash('data', req.body)
+
     if (error) {
       return res.redirect('/auth/register')
     }
