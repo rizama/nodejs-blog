@@ -56,6 +56,7 @@ const CreateUserController = require('./controllers/Users/CreateUserController')
 const StoreUserController = require('./controllers/Users/StoreUserController')
 const LoginUserController = require('./controllers/Users/LoginUserController')
 const LoginProcessController = require('./controllers/Users/LoginProcessController')
+const LogoutController = require('./controllers/Users/LogoutController')
 
 // * Index Route
 // app.get('/', (req, res) => {
@@ -75,6 +76,7 @@ app.post('/posts/store', AuthMiddleware, StorePostMiddleware, StorePostControlle
 app.get('/auth/register', UserAuthenticated, CreateUserController)
 app.post('/users/register', UserAuthenticated, StoreUserController)
 app.get('/auth/login', UserAuthenticated, LoginUserController)
+app.get('/auth/logout', LogoutController)
 app.post('/users/login', UserAuthenticated, LoginProcessController)
 
 // * Server Run
